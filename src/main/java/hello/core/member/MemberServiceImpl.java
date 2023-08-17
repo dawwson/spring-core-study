@@ -1,10 +1,14 @@
 package hello.core.member;
 
 public class MemberServiceImpl implements MemberService {
+    // 1과 2를 통해 OCP, DIP 만족
+    // 1. 추상에만 의존하도록 수정
+    private final MemberRepository memberRepository;
 
-    // 다형성에 의해서 MemoryMemberRepository에 구현된 save, findMember가 호출된다.
-    // 문제점 : 구상화에도 의존하고 추상화에도 의존하고 있다.
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    // 2. 생성자를 통해 의존성을 주입하도록 수정
+    public MemberServiceImpl(MemberRepository memberRepository) { // 생성자 주입
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public void join(Member member) {
