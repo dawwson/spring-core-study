@@ -9,24 +9,33 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 // 어떤 구현체를 넣어줄지(주입, injection)는 외부 AppConfig에서 결정한다. => DIP 만족
 // 서비스 단에서는 어떤 구현체가 들어오는지 알 필요가 없고, 비즈니스 로직 실행에만 집중하면 된다. => 관심사 분리
 // 의존 관계를 외부에서 주입하는 것을 DI(Dependency Injection)이라고 한다.
 // 역할과 구현 클래스 한 눈에 보임(애플리케이션 전체 구성이 한 눈에 보임)
+// 이렇게 객체를 생성하고 관리하며 의존관계를 연결해주는 AppConfig와 같은 것을 "DI 컨테이너"라고 한다.
+// DI 컨테이너는 실행시점에 동적으로 의존 관계를 설정해준다.
+@Configuration
 public class AppConfig {
+    @Bean  // 컨테이너에 등록된다.
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
     }
 
+    @Bean
     public OrderService orderService() {
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
-    private MemberRepository memberRepository() {
+    @Bean
+    public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
 
+    @Bean
     public DiscountPolicy discountPolicy() {
         return new RateDiscountPolicy();  // NOTE: 할인 정책 변경
     }
