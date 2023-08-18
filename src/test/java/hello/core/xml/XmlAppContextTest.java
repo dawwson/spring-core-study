@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
-// xml 기반으로 설정 정보를 작성하는 것은최근에 잘 사용하지는 않음.
+// xml 기반으로 설정 정보를 작성하는 것은 최근에 잘 사용하지는 않음.
 public class XmlAppContextTest {
     @Test
     void xmlAppContext() {
