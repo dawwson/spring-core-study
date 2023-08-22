@@ -20,6 +20,20 @@ import org.springframework.context.annotation.Configuration;
 // DI 컨테이너는 실행시점에 동적으로 의존 관계를 설정해준다.
 @Configuration
 public class AppConfig {
+    // @Bean memberService -> new MemoryMemberRepository()
+    // @Bean orderService -> new MemoryMemberRepository()
+    // new MemoryMemberRepository()를 두 번 호출하면 싱글톤이 깨지는 것인가? => NO!
+    /*
+       AppConfig를 상속받은 AppConfig@CGLIB 클래스에서
+       내가 등록한 Bean을 오버라이딩하여 아래와 같은 코드를 실행할 것이다.
+       if (memoryMemberRepository가 이미 있으면) {
+           return 스프링 컨테이너에서 찾아서 반환;
+       } else { // 스프링 컨테이너에 없으면
+           // 기존 로직을 호출해서 MemoryMemberRepository를 생성하고 스프링 컨테이너에 등록
+           return 반환;
+       }
+    */
+
     @Bean  // 컨테이너에 등록된다.
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
