@@ -3,7 +3,10 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderServiceImpl implements OrderService {
     // 1과 2를 통해 OCP, DIP 만족
     // 1. 추상에만 의존하도록 수정
@@ -11,6 +14,7 @@ public class OrderServiceImpl implements OrderService {
     private DiscountPolicy discountPolicy;
 
     // 2. 생성자를 통해 의존성을 주입하도록 수정
+    @Autowired
     public OrderServiceImpl(
         MemberRepository memberRepository,
         DiscountPolicy discountPolicy
