@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     public OrderServiceImpl(
         MemberRepository memberRepository,
-        @Qualifier("mainDiscountPolicy")  // 동일 이름으로 매칭되는 Qualifier를 찾아서 주입힌다.
+//        @Qualifier("mainDiscountPolicy")  // 동일 이름으로 매칭되는 Qualifier를 찾아서 주입힌다.
         DiscountPolicy discountPolicy
     ) {
         this.memberRepository = memberRepository;
