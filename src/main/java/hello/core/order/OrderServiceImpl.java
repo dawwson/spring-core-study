@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -21,6 +22,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceImpl(
         MemberRepository memberRepository,
 //        @Qualifier("mainDiscountPolicy")  // 동일 이름으로 매칭되는 Qualifier를 찾아서 주입힌다.
+        @MainDiscountPolicy
         DiscountPolicy discountPolicy
     ) {
         this.memberRepository = memberRepository;
