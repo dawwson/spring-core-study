@@ -19,7 +19,8 @@ public class BeanLifecycleTest {
 
     @Configuration
     static class LifecycleConfig {
-        @Bean
+        // 2. 스프링 전용 인터페이스에 의존하지 않아 외부라이브러리에도 초기화, 종료 메서드를 적용할 수 있다.
+        @Bean(initMethod = "init", destroyMethod = "close")
         public NetworkClient networkClient() {
             NetworkClient networkClient = new NetworkClient();
             networkClient.setUrl("http://hello-spring.dev");
