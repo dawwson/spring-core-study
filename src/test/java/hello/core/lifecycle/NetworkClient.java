@@ -1,5 +1,7 @@
 package hello.core.lifecycle;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -30,12 +32,16 @@ public class NetworkClient {
         System.out.println("close: " + url);
     }
 
+    // @PostContstuct, @PreDestroy => 가장 권장하는 방법
+    // 스프링 종속이 아니라 자바 표준임
+    @PostConstruct
     // 초기화 콜백 : 의존 관계 셋팅이 끝나면 호출됨
     public void init() throws Exception {
         connect();
         call("초기화 연결 메세지");
     }
 
+    @PreDestroy
     // 소멸전 콜백 : 빈이 소멸되기 직전에 호출
     public void close() throws Exception {
         disconnect();
