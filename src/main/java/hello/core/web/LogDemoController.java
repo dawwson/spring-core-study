@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class LogDemoController {
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerObjectProvider;
+    private final MyLogger myLogger;
+//    private final ObjectProvider<MyLogger> myLoggerObjectProvider;
 
     @RequestMapping("log-demo")
     @ResponseBody
@@ -21,7 +22,7 @@ public class LogDemoController {
 
         // request scope이므로 실제로 HTTP 요청이 들어와야 객체를 생성할 수 있다.
         // 프로바이더를 사용하여 실행 시점까지 객체 생성을 지연시킨다.
-        MyLogger myLogger = myLoggerObjectProvider.getObject();
+//        MyLogger myLogger = myLoggerObjectProvider.getObject();
         myLogger.setRequestUrl(requestUrl);
 
         myLogger.log("controller test");
