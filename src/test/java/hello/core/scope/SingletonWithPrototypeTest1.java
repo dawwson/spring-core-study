@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -37,19 +38,26 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.someLogic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
 
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean;  // 싱글톤이니까 프로토타입 빈이 생성시점에 주입됨
+//        private final PrototypeBean prototypeBean;  // 싱글톤이니까 프로토타입 빈이 생성시점에 주입됨
+
+//        @Autowired
+//        public ClientBean(PrototypeBean prototypeBean) {
+//            this.prototypeBean = prototypeBean;
+//        }
 
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private ObjectProvider<PrototypeBean> prototypeBeanObjectProvider;
 
         public int someLogic() {
+            // 프로바이더로 특정 로직을 실행할 때 필요할 때만 스프링 컨테이너에서 요청
+            // -> 프로토타입 빈의 새로운 객체를 생성해서 사용함
+            // 프로바이더의 핵심 컨셉은 스프링 컨테이너를 통해서 빈을 찾는 과정을 간단하게 도와주는 도구임
+            PrototypeBean prototypeBean = prototypeBeanObjectProvider.getObject();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
